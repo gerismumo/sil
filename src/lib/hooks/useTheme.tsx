@@ -10,6 +10,12 @@ export default function useTheme() {
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-theme", theme);
+    
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
 
     localStorage.setItem("theme", theme);
   }, [theme]);

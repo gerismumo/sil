@@ -6,10 +6,10 @@ function ThemeToggle() {
 
   return (
     <button
-      className="p-2 rounded-lg shadow-button bg-primary text-white"
+      className="px-[15px] py-[6px] rounded-lg shadow-button bg-primary text-white"
       onClick={toggleTheme}
     >
-      Switch to {theme === "dark" ? "Light" : "Dark"} Mode
+      {theme === "dark" ? "Light" : "Dark"}
     </button>
   );
 }
