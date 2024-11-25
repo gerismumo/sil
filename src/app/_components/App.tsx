@@ -1,8 +1,11 @@
+"use client"
+
 import React from 'react'
-import Header from './Header'
 import Container from '@/Layout/Container'
+import { useRouter } from 'next/navigation'
 
 const App = () => {
+  const router = useRouter();
   return (
     <>
     <div className="">
@@ -19,7 +22,7 @@ const App = () => {
                 <p className='text-center text-[15px]'>and view stunning photos, all in one place.</p>
               </div>
             </div>
-            <button className='!bg-light-dark border-[2px] !text-white  border-primary rounded-[25px] px-[25px] py-[8px] hover:shadow-sm hover:shadow-primary'>
+            <button onClick={() => router.push('/sign-in')} className='!bg-light-dark border-[2px] !text-white  border-primary rounded-[25px] px-[25px] py-[8px] hover:shadow-sm hover:shadow-primary'>
               Get Started
             </button>
           </div>
