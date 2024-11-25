@@ -17,19 +17,10 @@ export default {
         grey: "#b0b0b0", 
         background: "var(--background)",
         foreground: "var(--foreground)",
-
-        lightBackground: "#f9f9f9", 
-        lightText: "#333333", 
-        lightCard: "#ffffff", 
-
-        
-        darkBackground: "#121212", 
-        darkText: "#E0E0E0", 
-        darkCard: "#1E1E1E",
-
-       
-        sectionLightBackground: "#fafafa", 
-        sectionDarkBackground: "#333333",
+        "light-dark": "#2d3748", 
+        darker: "#1a202c",       
+        "alpha-white-300": "#ffffff29", 
+        "alpha-white-400": "#ffffff3d"
       },
       borderRadius: {
         default: "8px", 

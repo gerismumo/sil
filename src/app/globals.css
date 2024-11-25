@@ -4,13 +4,13 @@
 
 
 :root {
-  --background: #ffffff; 
-  --foreground: #171717; 
+  --background: #ffffff29; 
+  --foreground: #000; 
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #121212; 
+    --background: #1a202c; 
     --foreground: #ededed; 
   }
 }
@@ -24,12 +24,12 @@ body {
 
 
 html[data-theme="dark"] {
-  --background: #0a0a0a;
+  --background: #1a202c;
   --foreground: #ededed;
 }
 html[data-theme="light"] {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff29;
+  --foreground: #000;
 }
 
 .btn-primary {
@@ -43,7 +43,7 @@ html[data-theme="light"] {
 }
 
 h1 {
-  @apply text-[2.25rem];
+  @apply text-[45px];
 }
 
 h2 {
@@ -64,4 +64,8 @@ h5 {
 
 h6 {
   @apply text-[1rem]
+}
+
+.input {
+  @apply !text-black w-full p-2 border-[1px]
 }

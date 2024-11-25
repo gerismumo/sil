@@ -1,15 +1,17 @@
 "use client"
 import useTheme from "@/lib/hooks/useTheme";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
-      className="px-[15px] py-[6px] rounded-lg shadow-button bg-primary text-white"
+      className={`text-[20px] ${theme === "dark" ? "text-white": "text-black"}`}
       onClick={toggleTheme}
     >
-      {theme === "dark" ? "Light" : "Dark"}
+      <FontAwesomeIcon icon={theme === "dark" ? faSun : faMoon} />
     </button>
   );
 }
