@@ -6,6 +6,7 @@ export interface IUser {
     password?: string;
     username: string;
     email: string;
+    role: "user"| "admin";
 }
 
 const UserSchema: Schema = new Schema(
@@ -33,6 +34,11 @@ const UserSchema: Schema = new Schema(
       unique: true,
       match: /.+\@.+\..+/,
     },
+    role: {
+      type: String,
+      default: "user",
+      enum: ["user", "admin"], 
+    }
   },
   { timestamps: true }
 );
