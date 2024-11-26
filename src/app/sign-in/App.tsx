@@ -1,29 +1,43 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const SignIn = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
+    identifier: Yup.string()
+      .required('Email or Username is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
       .required('Password is required'),
   });
 
   const initialValues = {
-    email: '',
+    identifier: '',
     password: '',
   };
 
-  const handleSubmit = async (values: typeof initialValues) => {
+  const handleSubmit = async (values: typeof initialValues , { resetForm }: any) => {
     try {
-      console.log('Form values:', values);
-    } catch (error) {
-      console.error('Error submitting form:', error);
+      const response = await axios.post('/api/auth/signin',values);
+      if(response.data.success) {
+        toast.success(response.data.message);
+        resetForm();
+      } else {
+        toast.error(response.data.message);
+        return;
+      }
+    } catch (error:any) {
+      toast.error(
+        "An error occurred while creating the account. Please try again."
+      );
     }
   };
 
@@ -39,16 +53,16 @@ const SignIn = () => {
           <Form className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-semibold">
-                Email
+                Email or Username
               </label>
               <Field
-                type="email"
-                id="email"
-                name="email"
-                className="input rounded-md"
+                type="text"
+                id="identifier"
+                name="identifier"
+                className="input"
               />
               <ErrorMessage
-                name="email"
+                name="identifier"
                 component="div"
                 className="text-red-500 text-sm"
               />
@@ -58,12 +72,21 @@ const SignIn = () => {
               <label htmlFor="password" className="block text-sm font-semibold">
                 Password
               </label>
-              <Field
-                type="password"
-                id="password"
-                name="password"
-                className="input rounded-md"
-              />
+              <div className="relative">
+                <Field
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  className="input"
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-2 top-2 text-sm !text-black"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
               <ErrorMessage
                 name="password"
                 component="div"
@@ -83,7 +106,7 @@ const SignIn = () => {
       </Formik>
       <p className="text-center mt-4">
         Don't have an account?{' '}
-        <a href="/sign-in" className="text-blue-600">
+        <a href="/sign-up" className="text-blue-600">
           Sign up here
         </a>
       </p>

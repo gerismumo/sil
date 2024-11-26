@@ -14,8 +14,7 @@ export async function POST(req: NextRequest) {
 
     if (!identifier || !password) {
       return NextResponse.json(
-        { success: false, message: "All fields are  required." },
-        { status: 400 }
+        { success: false, message: "All fields are  required." }
       );
     }
 
@@ -26,30 +25,27 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: "Invalid username/email or password." },
-        { status: 401 }
+        { success: false, message: "Invalid username/email or password." }
       );
     }
 
 
     const isPasswordValid = await bcrypt.compare(password, user.password!);
 
-    const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET as any, {
+    const token = jwt.sign({ id: user._id, role: user.role, username: user.username }, JWT_SECRET as any, {
         expiresIn: "7d",
       });
 
       
     if (!isPasswordValid) {
       return NextResponse.json(
-        { success: false, message: "Invalid username/email or password." },
-        { status: 401 }
+        { success: false, message: "Invalid username/email or password." }
       );
     }
 
   
     const response = NextResponse.json(
-        { success: true, message: "Login successful!", user: { id: user._id, username: user.username } },
-        { status: 200 }
+        { success: true, message: "Login successful!" }
       );
   
       response.cookies.set("token", token, {
@@ -64,8 +60,7 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Something went wrong." },
-      { status: 500 }
+      { success: false, message: "Something went wrong." }
     );
   }
 }

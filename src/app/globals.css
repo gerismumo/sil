@@ -19,7 +19,7 @@ body {
   color: var(--foreground);
   background-color: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s, color 0.3s; 
+  /* transition: background-color 0.3s, color 0.3s;  */
 }
 
 
@@ -67,5 +67,5 @@ h6 {
 }
 
 .input {
-  @apply !text-black w-full p-2 border-[1px]
+  @apply text-black rounded-md  border-gray-300 w-full p-2 border-[1px]
 }

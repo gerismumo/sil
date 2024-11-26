@@ -4,7 +4,7 @@ import connectDB from "@/lib/dbConnect";
 import { User } from "@/(models)/User";
 
 
-export async function POST(req: NextRequest) {
+export  async function POST(req: NextRequest) {
   try {
     await connectDB();
 
@@ -13,8 +13,7 @@ export async function POST(req: NextRequest) {
 
     if (!name || !username || !password || !email) {
       return NextResponse.json(
-        { success: false, message: "All fields are required." },
-        { status: 400 }
+        { success: false, message: "All fields are required." }
       );
     }
 
@@ -24,8 +23,7 @@ export async function POST(req: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { success: false, message: "Username or email already exists." },
-        { status: 409 }
+        { success: false, message: "Username or email already exists." }
       );
     }
 
@@ -45,10 +43,10 @@ export async function POST(req: NextRequest) {
       { success: true, message: "User registered successfully!" },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error:any) {
+    console.log("error",error)
     return NextResponse.json(
-      { success: false, message: "Something went wrong." },
-      { status: 500 }
+      { success: false, message: "Something went wrong." }
     );
   }
 }
