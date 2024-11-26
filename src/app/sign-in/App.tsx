@@ -5,11 +5,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Spinner from '../_components/Spinner';
+import { useUserInfo } from '@/lib/hooks/userInfo';
+import { useRouter } from 'next/navigation';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
+  const router = useRouter();
 
   const validationSchema = Yup.object({
     identifier: Yup.string()
@@ -30,9 +33,9 @@ const SignIn = () => {
       if(response.data.success) {
         toast.success(response.data.message);
         resetForm();
+        router.push('/user-landing')
       } else {
         toast.error(response.data.message);
-        return;
       }
     } catch (error:any) {
       toast.error(
@@ -97,9 +100,9 @@ const SignIn = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary text-white p-2 rounded-md disabled:bg-gray-400"
+              className="w-full bg-primary text-white p-2 rounded-md "
             >
-              {isSubmitting ? 'Signing In...' : 'Sign In'}
+              {isSubmitting ? <Spinner/> : 'Sign In'}
             </button>
           </Form>
         )}

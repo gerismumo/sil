@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Spinner from "../_components/Spinner";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -144,7 +145,7 @@ const Signup = () => {
               disabled={isSubmitting}
               className="w-full bg-primary text-white p-2 rounded-md disabled:bg-gray-400"
             >
-              {isSubmitting ? "Signing Up..." : "Sign Up"}
+              {isSubmitting ? <Spinner/> : "Sign Up"}
             </button>
           </Form>
         )}
