@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/dbConnect";
 import { Album, IAlbum } from "@/(models)/Album";
+import { userAlbumsPhotos } from "@/lib/serverServices";
+
 
 const JWT_SECRET = process.env.JWT_SECRET;
 export default async function Home() {
@@ -26,11 +28,14 @@ export default async function Home() {
     await connectDB();
 
     const albumList:any = await Album.find({userId: user}).select('-createdAt -updatedAt -__v').lean();
-    
+
     const formattedAlbumList = albumList.map((album: any) => ({
         ...album,
         _id: album._id.toString(),
     }));
+
+    const alblumData = await userAlbumsPhotos(user);
+    console.log("alblumData", alblumData);
 
     return (
         <App albumList={formattedAlbumList}/>

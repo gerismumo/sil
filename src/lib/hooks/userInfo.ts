@@ -1,3 +1,4 @@
+"use client"
 import { getCookie } from "@/app/cookie";
 import { useState, useEffect } from "react";
 
