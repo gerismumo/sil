@@ -32,7 +32,17 @@ export const userAlbumsPhotos = async (userId: any) => {
         },
       ]);
   
-      return albumsWithPhotos;
+      const formattedData = albumsWithPhotos.map((album: any) => ({
+        ...album,
+        _id: album._id.toString(),
+        photos: album.photos.map((photo: any) => ({
+          ...photo,
+          _id: photo._id.toString()
+        })),
+      }));
+  
+      return formattedData;
+
     } catch (error: any) {
       console.error("Error fetching user albums and photos:", error);
       return [];

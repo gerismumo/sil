@@ -38,6 +38,6 @@ export default async function Home() {
     console.log("alblumData", alblumData);
 
     return (
-        <App albumList={formattedAlbumList}/>
+        <App albumList={formattedAlbumList} alblumData={alblumData} />
     )
 } 
