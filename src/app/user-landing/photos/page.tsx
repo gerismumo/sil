@@ -1,14 +1,13 @@
-import { cookies } from "next/headers";
-import App from "./_components/App";
+import PhotosViewPage from "./_components/App";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import connectDB from "@/lib/dbConnect";
 import { Album, IAlbum } from "@/(models)/Album";
-import { userAlbumsPhotos } from "@/lib/serverServices";
-
+import { userAlbumsPhotos } from "@/lib/serverServices"
+import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.JWT_SECRET;
-export default async function Home() {
+export default  async function PhotosView(props:any) {
+    const searchParams= await props.searchParams;
     const cookieStore = await cookies();
     const token:any = cookieStore.get('token');
 
@@ -25,19 +24,14 @@ export default async function Home() {
     }
 
     const user = decodedToken.id;
-    await connectDB();
-
-    const albumList:any = await Album.find({userId: user}).select('-createdAt -updatedAt -__v').lean();
-
-    const formattedAlbumList = albumList.map((album: any) => ({
-        ...album,
-        _id: album._id.toString(),
-    }));
-
     const alblumData = await userAlbumsPhotos(user);
-    console.log("alblumData", alblumData);
+    const data = alblumData.find((data) => data._id === searchParams.ref);
+
+    if(!data) {
+        redirect('/user-landing')
+    }
 
     return (
-        <App albumList={formattedAlbumList} alblumData={alblumData} />
+        <PhotosViewPage albumData={data}/>
     )
-} 
+}

@@ -5,6 +5,7 @@ import AlbumForm from './AlbumForm'
 import ImageForm from './ImageForm'
 import { IAlbum } from '@/(models)/Album'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type IPhoto = {
   _id: string;
@@ -37,7 +38,7 @@ const App: React.FC<Props> = ({ albumList, alblumData }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {alblumData.map((album) => (
-            <div key={album._id} className="dark:bg-light-dark shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+            <Link href={`/user-landing/photos?ref=${album._id}`} key={album._id} className="dark:bg-light-dark shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
               <div className="relative w-full h-64">
                 <Image 
                   src={album.photos[0]?.imageUrl || '/defaultalbum.jpeg'} 
@@ -51,7 +52,7 @@ const App: React.FC<Props> = ({ albumList, alblumData }) => {
                 <h2 className="text-xl font-semibold dark:text-white">{album.title}</h2>
                 <p className="text-sm dark:text-white">{album.photos.length} photos</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
