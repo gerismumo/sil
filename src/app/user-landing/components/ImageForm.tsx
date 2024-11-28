@@ -1,15 +1,21 @@
 "use client";
 
+import { IAlbum } from "@/(models)/Album";
+import Spinner from "@/app/_components/Spinner";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
 
-const ImageForm = () => {
+type Props = {
+  albumList:IAlbum[];
+}
+const ImageForm:React.FC<Props> = ({albumList}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [albums] = useState(["Album 1", "Album 2"]);
-
+ 
   const initialValues = {
     album: "",
     images: [{ url: "", title: "" }],
@@ -25,10 +31,31 @@ const ImageForm = () => {
     ),
   });
 
-  const handleSubmit = (values: typeof initialValues) => {
-    console.log("Images Added to Album:", values);
-    // Close the modal after submission
-    setIsOpen(false);
+  const handleSubmit = async(values: typeof initialValues) => {
+    const albumId = values.album;
+    const formattedValues = values.images.map((image) => {
+      const title = image.title;
+      const imageUrl = image.url;
+      return {
+        title,
+        imageUrl,
+        albumId
+      }
+    })
+
+    console.log("formatted", formattedValues);
+    try {
+      const response = await axios.post('/api/photo', formattedValues);
+      if(response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+    }catch(error) {
+      toast.error("Network error")
+    }
+
+   
   };
 
   return (
@@ -64,7 +91,7 @@ const ImageForm = () => {
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ values }) => (
+              {({ values, isSubmitting }) => (
                 <Form className="space-y-4">
                   <div>
                     <label htmlFor="album" className="block text-sm">
@@ -72,9 +99,9 @@ const ImageForm = () => {
                     </label>
                     <Field as="select" id="album" name="album" className="input">
                       <option value="">Select an Album</option>
-                      {albums.map((album, index) => (
-                        <option key={index} value={album}>
-                          {album}
+                      {albumList.map((album, index) => (
+                        <option key={index} value={album._id}>
+                          {album.title}
                         </option>
                       ))}
                     </Field>
@@ -141,7 +168,7 @@ const ImageForm = () => {
                       type="submit"
                       className="bg-primary w-full text-white px-4 py-2 rounded-md"
                     >
-                      Post
+                      {isSubmitting ? <Spinner/>: "Post"}
                     </button>
                   </div>
                 </Form>

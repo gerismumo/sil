@@ -17,16 +17,14 @@ export interface IPhoto  {
       title: {
         type: String,
         required: true,
-        minlength: 3,
       },
       imageUrl: {
         type: String,
-        required: true,
-        match: /^(http|https):\/\/.+/,
+        required: true
       },
     },
     { timestamps: true }
   );
   
-  export const Photo = mongoose.model<IPhoto>("Photo", PhotoSchema);
+  export const Photo = mongoose.models.Photo || mongoose.model<IPhoto>("Photo", PhotoSchema);
   

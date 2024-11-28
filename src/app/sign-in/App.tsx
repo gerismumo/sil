@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Spinner from '../_components/Spinner';
-import { useUserInfo } from '@/lib/hooks/userInfo';
 import { useRouter } from 'next/navigation';
 
 const SignIn = () => {
@@ -34,6 +33,7 @@ const SignIn = () => {
         toast.success(response.data.message);
         resetForm();
         router.push('/user-landing')
+        router.refresh();
       } else {
         toast.error(response.data.message);
       }

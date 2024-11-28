@@ -8,16 +8,19 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export const getCookie = async()  => {
     const cookieStore = await cookies()
     const token:any = cookieStore.get('token');
-    const value = token.value;
+    const value :any = token?.value;
+    if(value) {
+        const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
+        const user = {
+            userId: decodedToken.id,
+            role: decodedToken.role,
+            username: decodedToken.username
+        }
 
-    const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
-    const user = {
-        userId: decodedToken.id,
-        role: decodedToken.role,
-        username: decodedToken.username
+        return user
+    }else {
+        return null;
     }
-    
-    return user;
 }
 
 

@@ -9,8 +9,7 @@ export interface IAlbum{
   const AlbumSchema: Schema = new Schema(
     {
       userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
         required: true,
       },
       title: {
@@ -22,5 +21,5 @@ export interface IAlbum{
     { timestamps: true }
   );
   
-  export const Album = mongoose.model<IAlbum>("Album", AlbumSchema);
+  export const Album = mongoose.models.Album || mongoose.model<IAlbum>("Album", AlbumSchema);
   

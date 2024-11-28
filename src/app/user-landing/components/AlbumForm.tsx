@@ -5,6 +5,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "@/app/_components/Spinner";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const AlbumForm = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +19,18 @@ const AlbumForm = () => {
     albumName: Yup.string().required("Album name is required"),
   });
 
-  const handleSubmit = (values: typeof initialValues) => {
-    console.log("New Album Added:", values);
+  const handleSubmit = async(values: typeof initialValues , {resetForm }:any) => {
+    try{
+      const response = await axios.post('/api/album', values);
+      if(response.data.success) {
+        toast.success(response.data.message);
+        resetForm();
+      }else {
+        toast.error(response.data.message);
+      }
+    }catch(error:any) {
+      toast.error("Network Error")
+    }
   };
 
   return (
@@ -51,7 +64,7 @@ const AlbumForm = () => {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {() => (
+                    {({isSubmitting}) => (
                     <Form className="space-y-4">
                         <div>
                         <label htmlFor="albumName" className="block text-sm font-semibold">
@@ -68,7 +81,7 @@ const AlbumForm = () => {
                         type="submit"
                         className="w-full bg-primary text-white p-2 rounded-md"
                         >
-                        Submit
+                          {isSubmitting ? <Spinner/>: "Submit"}
                         </button>
                     </Form>
                     )}

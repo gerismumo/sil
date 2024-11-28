@@ -16,7 +16,7 @@ const Header = () => {
 
     const handleLogout = async () => {
         const redirectPath = await logoutUser();
-        useUserInfo();
+        router.refresh();
         router.push(redirectPath);
     };
     
