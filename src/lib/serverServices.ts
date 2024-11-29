@@ -78,3 +78,13 @@ export const usersList = async() => {
   }
 }
 
+export const checkUser = async (user:any) => {
+  try {
+    await connectDB();
+
+    const userdata = await User.findById(user);
+    return userdata;
+  }catch(error:any) {
+    return null
+  }
+}

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "@/Layout/Container";
+import Link from "next/link";
 
 type UserData = {
   _id: string;
@@ -35,16 +36,16 @@ const UsersList: React.FC<Props> = ({users}) => {
     <Container>
       <div className="my-10">
         <h1 className="text-3xl font-bold dark:text-white text-center mb-8">
-          Registered Users with Albums
+          Users
         </h1>
         <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {users.map((user) => (
-            <div
+            <Link href={`/home/user?userRef=${user._id}`}
               key={user._id}
               className="border rounded-lg shadow-lg p-6 hover:shadow-xl transition duration-300 ease-in-out bg-white dark:bg-light-dark "
             >
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xl">
+                <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -58,18 +59,18 @@ const UsersList: React.FC<Props> = ({users}) => {
                 Email:{" "}
                 <a
                   href={`mailto:${user.email}`}
-                  className="text-blue-500 hover:underline"
+                  className="text-gray-700  dark:text-gray-200 hover:underline"
                 >
                   {user.email}
                 </a>
               </p>
               <p className="mt-2 text-gray-700 dark:text-white">
                 Albums:{" "}
-                <span className="font-semibold text-blue-600">
+                <span className="font-semibold text-gray-700  dark:text-gray-200">
                   {user.albumCount}
                 </span>
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
