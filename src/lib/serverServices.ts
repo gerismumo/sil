@@ -2,6 +2,7 @@
 
 import { Album } from "@/(models)/Album";
 import connectDB from "./dbConnect";
+import { User } from "@/(models)/User";
 
 export const userAlbumsPhotos = async (userId: any) => {
     try {
@@ -48,3 +49,32 @@ export const userAlbumsPhotos = async (userId: any) => {
       return [];
     }
   };
+
+export const usersList = async() => {
+  try {
+    await connectDB();
+    const users: any[] = await User.find({role:"user"}).lean();
+    const albums = await Album.find().lean();
+
+   
+    const userAlbumCounts = users.map((user: any) => {
+      const albumCount = albums.filter(
+        (album) => album.userId === user._id.toString()
+      ).length;
+
+      const { _id, name, username, email } = user;
+      return {
+        _id: _id.toString(),
+        name,
+        username,
+        email,
+        albumCount,
+      };
+    });
+
+    return  userAlbumCounts;
+  } catch (error: any) {
+    return [];
+  }
+}
+
