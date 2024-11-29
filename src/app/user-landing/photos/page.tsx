@@ -1,9 +1,9 @@
-import PhotosViewPage from "./_components/App";
+
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import { Album, IAlbum } from "@/(models)/Album";
 import { userAlbumsPhotos } from "@/lib/serverServices"
 import { cookies } from "next/headers";
+import PhotosViewPage from "./_components/App";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 export default  async function PhotosView(props:any) {

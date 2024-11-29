@@ -21,7 +21,7 @@ const Header = () => {
     };
     
   return (
-    <div className="flex flex-col dark:shadow-alpha-white-400 shadow-sm ">
+    <div className="flex flex-col shadow-gray-300 dark:shadow-alpha-white-400 shadow-sm ">
         <Container>
             <div className="flex flex-row justify-between items-center py-[15px]">
                 <div onClick={() => router.push('/')} className="flex flex-col cursor-pointer">
