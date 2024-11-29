@@ -21,13 +21,17 @@ export default async function Home(props:any) {
     
     const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
     
-    if(!decodedToken.id) {
-        redirect('/sign-in');
+    if (!decodedToken.id || decodedToken.role !== "admin") {
+        return redirect('/sign-in');
     }
 
   
 
     const user = searchParams.userRef;
+
+    if(!user) {
+        redirect('/home')
+    }
 
     const alblumData = await userAlbumsPhotos(user);
     console.log("alblumData", alblumData);

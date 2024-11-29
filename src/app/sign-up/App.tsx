@@ -6,8 +6,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Spinner from "../_components/Spinner";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -47,6 +49,7 @@ const Signup = () => {
       if(response.data.success) {
         toast.success(response.data.message);
         resetForm();
+        router.push('/sign-in');
       } else {
         toast.error(response.data.message);
         return;
