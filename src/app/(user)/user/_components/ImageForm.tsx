@@ -6,6 +6,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
@@ -14,6 +15,7 @@ type Props = {
   albumList:IAlbum[];
 }
 const ImageForm:React.FC<Props> = ({albumList}) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
  
   const initialValues = {
@@ -31,7 +33,7 @@ const ImageForm:React.FC<Props> = ({albumList}) => {
     ),
   });
 
-  const handleSubmit = async(values: typeof initialValues) => {
+  const handleSubmit = async(values: typeof initialValues,  {resetForm }:any) => {
     const albumId = values.album;
     const formattedValues = values.images.map((image) => {
       const title = image.title;
@@ -43,11 +45,12 @@ const ImageForm:React.FC<Props> = ({albumList}) => {
       }
     })
 
-    console.log("formatted", formattedValues);
     try {
       const response = await axios.post('/api/photo', formattedValues);
       if(response.data.success) {
         toast.success(response.data.message);
+        resetForm();
+        router.refresh();
       } else {
         toast.error(response.data.message);
       }

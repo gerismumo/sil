@@ -26,7 +26,7 @@ const PhotosViewPage: React.FC<Props> = ({ albumData }) => {
             <h1 className="text-3xl font-semibold dark:text-white mb-8">{albumData.title} Photos</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {albumData.photos.map((photo) => (
-                <Link href={`/user-landing/photos/photo?ref=${albumData._id}&id=${photo._id}`} key={photo._id} className="group relative">
+                <Link href={`/user/album/photo?ref=${albumData._id}&id=${photo._id}`} key={photo._id} className="group relative">
                     <div className="w-full h-72 relative dark:bg-light-dark rounded-lg overflow-hidden shadow-gray-50 dark:shadow-light-dark shadow-md">
                     <Image
                         src={photo.imageUrl}

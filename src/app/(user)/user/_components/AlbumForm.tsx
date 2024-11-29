@@ -8,8 +8,10 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "@/app/_components/Spinner";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const AlbumForm = () => {
+  const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
   const initialValues = {
     albumName: "",
@@ -25,6 +27,7 @@ const AlbumForm = () => {
       if(response.data.success) {
         toast.success(response.data.message);
         resetForm();
+        router.refresh();
       }else {
         toast.error(response.data.message);
       }

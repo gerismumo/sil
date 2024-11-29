@@ -38,7 +38,7 @@ const App: React.FC<Props> = ({ albumList, alblumData }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {alblumData.map((album) => (
-            <Link href={`/user-landing/photos?ref=${album._id}`} key={album._id} className="dark:bg-light-dark shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-100">
+            <Link href={`/user/album?ref=${album._id}`} key={album._id} className="dark:bg-light-dark shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-100">
               <div className="relative w-full h-64">
                 <Image 
                   src={album.photos[0]?.imageUrl || '/defaultalbum.jpeg'} 

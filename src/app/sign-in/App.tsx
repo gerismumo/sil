@@ -32,7 +32,7 @@ const SignIn = () => {
       if(response.data.success) {
         toast.success(response.data.message);
         resetForm();
-        router.push('/user-landing')
+        router.push('/user')
         router.refresh();
       } else {
         toast.error(response.data.message);
