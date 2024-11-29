@@ -1,7 +1,7 @@
 import PhotoView from "./App";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import { userAlbumsPhotos } from "@/lib/serverServices"
+import { checkUser, userAlbumsPhotos } from "@/lib/serverServices"
 import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -11,16 +11,23 @@ export default async function Home(props:any) {
     const token:any = cookieStore.get('token');
 
     if(!token) {
-        redirect('/sign-in');
+       return redirect('/sign-in');
     } 
 
     const value = token.value;
     
     const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
     
-    if(!decodedToken.id) {
-        redirect('/sign-in');
+    if(!decodedToken.id || !searchParams.id) {
+       return redirect('/sign-in');
     }
+
+    const check = await checkUser(decodedToken.id);
+    if (!check) {
+      return redirect('/sign-in');
+    }
+
+
 
     const user = decodedToken.id;
     const alblumData = await userAlbumsPhotos(user);

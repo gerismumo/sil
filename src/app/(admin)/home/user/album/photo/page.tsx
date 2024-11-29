@@ -1,7 +1,7 @@
 
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import { userAlbumsPhotos } from "@/lib/serverServices"
+import { checkUser, userAlbumsPhotos } from "@/lib/serverServices"
 import { cookies } from "next/headers";
 import PhotoView from "./App";
 
@@ -23,8 +23,18 @@ export default async function Home(props:any) {
         redirect('/sign-in');
     }
 
+    const check = await checkUser(decodedToken.id);
+    if (!check) {
+      return redirect('/sign-in');
+    }
+
     const user = searchParams.userRef;
     const alblumData = await userAlbumsPhotos(user);
+
+    if(!user || !alblumData) {
+       return  redirect('/home')
+    }
+
     const data = alblumData.find((data) => data._id === searchParams.albumRef).photos.find((image:any) => image._id === searchParams.photoRef);
     return (
         <PhotoView title={data.title} image={data.imageUrl} />

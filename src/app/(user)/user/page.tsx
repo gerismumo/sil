@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/dbConnect";
 import { Album, IAlbum } from "@/(models)/Album";
-import { userAlbumsPhotos } from "@/lib/serverServices";
+import { checkUser, userAlbumsPhotos } from "@/lib/serverServices";
 
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -13,7 +13,7 @@ export default async function Home() {
     const token:any = cookieStore.get('token');
 
     if(!token) {
-        redirect('/sign-in');
+        return redirect('/sign-in');
     } 
 
     const value = token.value;
@@ -21,7 +21,12 @@ export default async function Home() {
     const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
     
     if(!decodedToken.id) {
-        redirect('/sign-in');
+        return redirect('/sign-in');
+    }
+
+    const check = await checkUser(decodedToken.id);
+    if (!check) {
+      return redirect('/sign-in');
     }
 
     const user = decodedToken.id;
@@ -35,7 +40,6 @@ export default async function Home() {
     }));
 
     const alblumData = await userAlbumsPhotos(user);
-    console.log("alblumData", alblumData);
 
     return (
         <App albumList={formattedAlbumList} alblumData={alblumData} />

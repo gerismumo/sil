@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/dbConnect";
 import { Album, IAlbum } from "@/(models)/Album";
-import { userAlbumsPhotos } from "@/lib/serverServices";
+import { checkUser, userAlbumsPhotos } from "@/lib/serverServices";
 import App from "./App";
 
 
@@ -25,6 +25,10 @@ export default async function Home(props:any) {
         return redirect('/sign-in');
     }
 
+    const check = await checkUser(decodedToken.id);
+    if (!check) {
+      return redirect('/sign-in');
+    }
   
 
     const user = searchParams.userRef;
@@ -34,7 +38,6 @@ export default async function Home(props:any) {
     }
 
     const alblumData = await userAlbumsPhotos(user);
-    console.log("alblumData", alblumData);
 
     return (
         <App  alblumData={alblumData} user={user} />
