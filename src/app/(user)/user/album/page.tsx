@@ -33,10 +33,6 @@ export default  async function PhotosView(props:any) {
     const alblumData = await userAlbumsPhotos(user);
     const data = alblumData.find((data) => data._id === searchParams.ref);
 
-    if(!data) {
-        redirect('/user-landing')
-    }
-
     return (
         <PhotosViewPage albumData={data}/>
     )

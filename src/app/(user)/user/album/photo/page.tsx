@@ -32,7 +32,6 @@ export default async function Home(props:any) {
     const user = decodedToken.id;
     const alblumData = await userAlbumsPhotos(user);
     const data = alblumData.find((data) => data._id === searchParams.ref).photos.find((image:any) => image._id === searchParams.id);
-    console.log("data", data);
     return (
         <PhotoView title={data.title} image={data.imageUrl} />
     )
