@@ -24,22 +24,22 @@ export default async function Home() {
         return redirect('/sign-in');
     }
 
-    const check = await checkUser(decodedToken.id);
+    const check:any = await checkUser(decodedToken.id);
     if (!check) {
       return redirect('/sign-in');
     }
 
-    const user = decodedToken.id;
+    const user: string = decodedToken.id;
     await connectDB();
 
     const albumList:any = await Album.find({userId: user}).select('-createdAt -updatedAt -__v').lean();
 
-    const formattedAlbumList = albumList.map((album: any) => ({
+    const formattedAlbumList:any = albumList.map((album: any) => ({
         ...album,
         _id: album._id.toString(),
     }));
 
-    const alblumData = await userAlbumsPhotos(user);
+    const alblumData:any = await userAlbumsPhotos(user);
 
     return (
         <App albumList={formattedAlbumList} alblumData={alblumData} />

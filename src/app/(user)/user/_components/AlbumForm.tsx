@@ -32,6 +32,7 @@ const AlbumForm = () => {
         toast.error(response.data.message);
       }
     }catch(error:any) {
+      console.log(error)
       toast.error("Network Error")
     }
   };

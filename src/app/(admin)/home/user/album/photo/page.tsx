@@ -23,19 +23,19 @@ export default async function Home(props:any) {
         redirect('/sign-in');
     }
 
-    const check = await checkUser(decodedToken.id);
+    const check :any= await checkUser(decodedToken.id);
     if (!check) {
       return redirect('/sign-in');
     }
 
-    const user = searchParams.userRef;
-    const alblumData = await userAlbumsPhotos(user);
+    const user: string = searchParams.userRef;
+    const alblumData: any = await userAlbumsPhotos(user);
 
     if(!user || !alblumData) {
        return  redirect('/home')
     }
 
-    const data = alblumData.find((data) => data._id === searchParams.albumRef).photos.find((image:any) => image._id === searchParams.photoRef);
+    const data:any = alblumData.find((data:any) => data._id === searchParams.albumRef).photos.find((image:any) => image._id === searchParams.photoRef);
     return (
         <PhotoView title={data.title} image={data.imageUrl} />
     )

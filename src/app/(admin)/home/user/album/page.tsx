@@ -23,20 +23,20 @@ export default  async function PhotosView(props:any) {
         redirect('/sign-in');
     }
 
-    const check = await checkUser(decodedToken.id);
+    const check:any = await checkUser(decodedToken.id);
     if (!check) {
       return redirect('/sign-in');
     }
 
-    const user = searchParams.userRef;
-    const albumRef = searchParams.albumRef;
+    const user:string = searchParams.userRef;
+    const albumRef:string = searchParams.albumRef;
 
     if(!user ||!albumRef) {
         redirect('/home')
     }
 
-    const alblumData = await userAlbumsPhotos(user);
-    const data = alblumData.find((data) => data._id === albumRef);
+    const alblumData:any = await userAlbumsPhotos(user);
+    const data:any = alblumData.find((data:any) => data._id === albumRef);
 
     return (
         <App albumData={data} userRef={user} />

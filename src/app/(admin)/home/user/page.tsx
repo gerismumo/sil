@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import connectDB from "@/lib/dbConnect";
-import { Album, IAlbum } from "@/(models)/Album";
 import { checkUser, userAlbumsPhotos } from "@/lib/serverServices";
 import App from "./App";
 
@@ -25,19 +23,19 @@ export default async function Home(props:any) {
         return redirect('/sign-in');
     }
 
-    const check = await checkUser(decodedToken.id);
+    const check:any = await checkUser(decodedToken.id);
     if (!check) {
       return redirect('/sign-in');
     }
   
 
-    const user = searchParams.userRef;
+    const user: string = searchParams.userRef;
 
     if(!user) {
         redirect('/home')
     }
 
-    const alblumData = await userAlbumsPhotos(user);
+    const alblumData:any = await userAlbumsPhotos(user);
 
     return (
         <App  alblumData={alblumData} user={user} />

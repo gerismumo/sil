@@ -28,7 +28,7 @@ export default async function Home() {
       return redirect('/sign-in');
     }
 
-    let usersInfo = await usersList();
+    const usersInfo:any = await usersList();
 
     return <UsersList users={usersInfo} />;
   } catch (error) {

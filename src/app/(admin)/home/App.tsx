@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Container from "@/Layout/Container";
 import Link from "next/link";
 
