@@ -28,7 +28,7 @@ const SignIn = () => {
 
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  
+
   const handleSubmit = async (values: typeof initialValues , { resetForm }: any) => {
     try {
       const response = await axios.post('/api/auth/signin',values);
@@ -114,7 +114,7 @@ const SignIn = () => {
         )}
       </Formik>
       <p className="text-center mt-4">
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <a href="/sign-up" className="text-blue-600">
           Sign up here
         </a>
