@@ -32,8 +32,11 @@ const SignIn = () => {
       if(response.data.success) {
         toast.success(response.data.message);
         resetForm();
-        router.push('/user')
-        router.refresh();
+        if(response.data.user === "admin") {
+          router.push('/home')
+        }else if(response.data.user === "user") {
+          router.push('/user')
+        }
       } else {
         toast.error(response.data.message);
       }

@@ -5,6 +5,7 @@ import { User } from "@/(models)/User";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
@@ -14,50 +15,53 @@ export async function POST(req: NextRequest) {
 
     if (!identifier || !password) {
       return NextResponse.json(
-        { success: false, message: "All fields are  required." }
+        { success: false, message: "All fields are required." },
+        { status: 400 }
       );
     }
 
- 
+  
     const user = await User.findOne({
       $or: [{ username: identifier }, { email: identifier }],
-    }).select("+password"); 
+    }).select("+password");
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: "Invalid username/email or password." }
+        { success: false, message: "Invalid username/email or password." },
+        { status: 401 }
       );
     }
-
 
     const isPasswordValid = await bcrypt.compare(password, user.password!);
-
-    const token = jwt.sign({ id: user._id, role: user.role, username: user.username }, JWT_SECRET as any, {
-        expiresIn: "7d",
-      });
-
-      
     if (!isPasswordValid) {
       return NextResponse.json(
-        { success: false, message: "Invalid username/email or password." }
+        { success: false, message: "Invalid username/email or password." },
+        { status: 401 }
       );
     }
 
   
-    const response = NextResponse.json(
-        { success: true, message: "Login successful!" }
-      );
-  
-      response.cookies.set("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 7 * 24 * 60 * 60, 
-        sameSite: "strict",
-        path: "/",
-      });
-  
-      return response;
+    const token = jwt.sign(
+      { id: user._id, role: user.role, username: user.username },
+      JWT_SECRET as string,
+      { expiresIn: "7d" }
+    );
 
+   
+    const response = NextResponse.json(
+      { success: true, message: "Login successful!", user: user.role }
+    );
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60,
+      sameSite: "strict",
+      path: "/",
+    });
+
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Something went wrong." }
