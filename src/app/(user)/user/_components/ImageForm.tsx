@@ -33,6 +33,8 @@ const ImageForm:React.FC<Props> = ({albumList}) => {
     ),
   });
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+
   const handleSubmit = async(values: typeof initialValues,  {resetForm }:any) => {
     const albumId = values.album;
     const formattedValues = values.images.map((image) => {

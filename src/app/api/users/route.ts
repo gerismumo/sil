@@ -3,6 +3,7 @@ import { Album } from "@/(models)/Album";
 import connectDB from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function GET() {
   try {
     await connectDB();

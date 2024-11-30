@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const allowedOrigins = ['http://localhost:3000']; 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET); 

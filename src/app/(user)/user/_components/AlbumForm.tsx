@@ -21,6 +21,8 @@ const AlbumForm = () => {
     albumName: Yup.string().required("Album name is required"),
   });
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  
   const handleSubmit = async(values: typeof initialValues , {resetForm }:any) => {
     try{
       const response = await axios.post('/api/album', values);

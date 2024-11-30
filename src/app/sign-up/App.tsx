@@ -43,6 +43,8 @@ const Signup = () => {
     confirmPassword: "",
   };
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  
   const handleSubmit = async (values: typeof initialValues, { resetForm }: any) => {
     try {
       const response = await axios.post('/api/auth/signup',values);

@@ -26,6 +26,9 @@ const SignIn = () => {
     password: '',
   };
 
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  
   const handleSubmit = async (values: typeof initialValues , { resetForm }: any) => {
     try {
       const response = await axios.post('/api/auth/signin',values);

@@ -9,6 +9,7 @@ import { getCookie, logoutUser } from "../cookie";
 
 const Header = () => {
   const router = useRouter();
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [user, setUser] = useState<any | null>(null);
 
   const POLLING_INTERVAL = 500; 

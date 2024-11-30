@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import { DecodedToken } from "@/lib/types";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const JWT_SECRET = process.env.JWT_SECRET;
 

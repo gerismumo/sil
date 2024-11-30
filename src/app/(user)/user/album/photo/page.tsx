@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 import { DecodedToken } from "@/lib/types";
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function Home(props:any) {
     const searchParams= await props.searchParams;
     const cookieStore = await cookies();

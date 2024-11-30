@@ -4,6 +4,8 @@ import { Album } from "@/(models)/Album";
 import connectDB from "./dbConnect";
 import { User } from "@/(models)/User";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const userAlbumsPhotos = async (userId: any) => {
     try {
    

@@ -3,8 +3,11 @@ import connectDB from "@/lib/dbConnect";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { DecodedToken } from "@/lib/types";
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export async function POST(req: NextRequest) {
     try{
@@ -19,14 +22,14 @@ export async function POST(req: NextRequest) {
         await connectDB();
 
         const cookieStore = await cookies();
-        const token:any = cookieStore.get('token');
+        const token = cookieStore.get('token');
 
         if(!token) {
             return NextResponse.json({success: false, message: "user not authenticated"})
         }
         const value = token.value;
     
-        const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
+        const decodedToken = jwt.verify(value, JWT_SECRET as string) as DecodedToken;
       
         if(!decodedToken.id) {
             return NextResponse.json({success: false, message: "user not authenticated"})

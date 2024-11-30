@@ -9,6 +9,7 @@ import { DecodedToken } from "@/lib/types";
 
 
 const JWT_SECRET = process.env.JWT_SECRET;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function Home() {
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
@@ -25,7 +26,7 @@ export default async function Home() {
         return redirect('/sign-in');
     }
 
-    const check:any = await checkUser(decodedToken.id);
+    const check = await checkUser(decodedToken.id);
     if (!check) {
       return redirect('/sign-in');
     }

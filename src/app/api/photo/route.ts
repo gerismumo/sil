@@ -3,6 +3,7 @@ import connectDB from "@/lib/dbConnect";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function POST(req:NextRequest) {
     try{
         const body = await req.json();
