@@ -50,6 +50,7 @@ const Signup = () => {
         toast.success(response.data.message);
         resetForm();
         router.push('/sign-in');
+        return;
       } else {
         toast.error(response.data.message);
         return;
@@ -146,7 +147,7 @@ const Signup = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary text-white p-2 rounded-md disabled:bg-gray-400"
+              className="w-full bg-primary text-white p-2 rounded-md"
             >
               {isSubmitting ? <Spinner/> : "Sign Up"}
             </button>

@@ -24,6 +24,14 @@ const App: React.FC<Props> = ({ albumData , userRef}) => {
   return (
     <Container>
         <div className="container mx-auto py-10 px-6">
+          {albumData.photos.length === 0 ? (
+            <div className="flex flex-row justify-center items-center">
+              <h2 className="text-xl text-center font-semibold dark:text-white">
+                No Data found.
+              </h2>
+            </div>
+          ): (
+            <>
             <h1 className="text-3xl font-semibold dark:text-white mb-8">{albumData.title} Photos</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {albumData.photos.map((photo) => (
@@ -43,6 +51,8 @@ const App: React.FC<Props> = ({ albumData , userRef}) => {
                 </Link>
                 ))}
             </div>
+            </>
+          )}
         </div>
     </Container>
   )
