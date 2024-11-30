@@ -59,7 +59,7 @@ const AlbumForm = () => {
                     <button
                         type="button"
                         onClick={() => setIsOpen(false)}
-                        className="text-white text-[30px] "
+                        className="text-black dark:text-white text-[30px] "
                     >
                         <FontAwesomeIcon icon={faXmark}/>
                     </button>

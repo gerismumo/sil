@@ -14,14 +14,15 @@ const PhotoView: React.FC<Props> = ({ title, image }) => {
     <Container>
       <div className="flex flex-col items-center justify-center py-10 px-6">
         <div className="w-full max-w-3xl bg-gray-200 rounded-lg overflow-hidden shadow-lg mb-6">
-          <Image
-            src={image}
-            alt={title}
-            width={1200}
-            height={800}
-            objectFit="cover"
-            className="w-full h-full"
-          />
+          <div className="relative w-full" style={{ height: '400px' }}>
+            <Image
+              src={image}
+              alt={title}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
+            />
+          </div>
         </div>
         <h1 className="text-3xl font-semibold dark:text-white mb-4">{title}</h1>
       </div>
