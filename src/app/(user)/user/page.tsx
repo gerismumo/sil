@@ -3,7 +3,7 @@ import App from "./_components/App";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/dbConnect";
-import { Album, IAlbum } from "@/(models)/Album";
+import { Album} from "@/(models)/Album";
 import { checkUser, userAlbumsPhotos } from "@/lib/serverServices";
 import { DecodedToken } from "@/lib/types";
 
