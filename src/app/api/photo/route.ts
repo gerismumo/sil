@@ -19,8 +19,7 @@ export async function POST(req:NextRequest) {
 
         return NextResponse.json({ success: true, message: "Photos added successfully" });
 
-    }catch(error) {
-        console.error(error);
+    }catch {
         return NextResponse.json({ success: false, message: "Internal server error" });
     }
 }

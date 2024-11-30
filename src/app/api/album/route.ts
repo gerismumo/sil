@@ -52,8 +52,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({success: true, message: "Album created successfully"});
 
-    }catch(error:any) {
-        console.log(error)
+    }catch{
         return NextResponse.json({success: false, message: "Internal server error"})
     }
 }
@@ -64,8 +63,7 @@ export async function GET() {
 
         const data = await Album.find();
         return NextResponse.json({success: true, data });
-    }catch(error:any){
-        console.log(error)
+    }catch{
         return NextResponse.json({success: false, message: "Internal server error"})
     }
 }

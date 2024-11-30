@@ -40,7 +40,7 @@ const SignIn = () => {
       } else {
         toast.error(response.data.message);
       }
-    } catch (error:any) {
+    } catch {
       toast.error(
         "An error occurred while creating the account. Please try again."
       );

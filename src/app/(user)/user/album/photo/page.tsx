@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import { checkUser, userAlbumsPhotos } from "@/lib/serverServices"
 import { cookies } from "next/headers";
+import { DecodedToken } from "@/lib/types";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 export default async function Home(props:any) {
@@ -16,13 +17,13 @@ export default async function Home(props:any) {
 
     const value = token.value;
     
-    const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
+    const decodedToken = jwt.verify(value, JWT_SECRET as string) as DecodedToken;
     
     if(!decodedToken.id || !searchParams.id) {
        return redirect('/sign-in');
     }
 
-    const check :any = await checkUser(decodedToken.id);
+    const check  = await checkUser(decodedToken.id);
     if (!check) {
       return redirect('/sign-in');
     }
@@ -30,8 +31,8 @@ export default async function Home(props:any) {
 
 
     const user: string = decodedToken.id;
-    const alblumData:any = await userAlbumsPhotos(user);
-    const data:any = alblumData.find((data:any) => data._id === searchParams.ref).photos.find((image:any) => image._id === searchParams.id);
+    const alblumData = await userAlbumsPhotos(user);
+    const data = alblumData.find((data) => data._id === searchParams.ref).photos.find((image:any) => image._id === searchParams.id);
     return (
         <PhotoView title={data.title} image={data.imageUrl} />
     )

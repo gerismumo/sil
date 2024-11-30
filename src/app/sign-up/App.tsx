@@ -55,7 +55,7 @@ const Signup = () => {
         toast.error(response.data.message);
         return;
       }
-    } catch (error:any) {
+    } catch {
       toast.error(
         "An error occurred while creating the account. Please try again."
       );

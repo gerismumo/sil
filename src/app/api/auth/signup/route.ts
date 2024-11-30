@@ -43,8 +43,7 @@ export  async function POST(req: NextRequest) {
       { success: true, message: "User registered successfully!" },
       { status: 201 }
     );
-  } catch (error:any) {
-    console.log("error",error)
+  } catch {
     return NextResponse.json(
       { success: false, message: "Something went wrong." }
     );

@@ -54,8 +54,7 @@ const ImageForm:React.FC<Props> = ({albumList}) => {
       } else {
         toast.error(response.data.message);
       }
-    }catch(error) {
-      console.log(error)
+    }catch{
       toast.error("Network error")
     }
 

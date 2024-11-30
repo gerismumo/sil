@@ -4,12 +4,13 @@ import jwt from "jsonwebtoken";
 import { checkUser, userAlbumsPhotos } from "@/lib/serverServices"
 import { cookies } from "next/headers";
 import PhotosViewPage from "./_components/App";
+import { DecodedToken } from "@/lib/types";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 export default  async function PhotosView(props:any) {
     const searchParams= await props.searchParams;
     const cookieStore = await cookies();
-    const token:any = cookieStore.get('token');
+    const token = cookieStore.get('token');
 
     if(!token) {
        return redirect('/sign-in');
@@ -17,7 +18,7 @@ export default  async function PhotosView(props:any) {
 
     const value = token.value;
     
-    const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
+    const decodedToken = jwt.verify(value, JWT_SECRET as string) as DecodedToken;
     
     if(!decodedToken.id) {
         return redirect('/sign-in');

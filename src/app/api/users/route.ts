@@ -26,8 +26,7 @@ export async function GET() {
     });
 
     return NextResponse.json({ success: true, data: userAlbumCounts });
-  } catch (error: any) {
-    console.error("Error fetching users and albums:", error);
+  } catch  {
     return NextResponse.json({ success: false, message: "Internal Server Error" });
   }
 }

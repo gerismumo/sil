@@ -44,8 +44,8 @@ export const userAlbumsPhotos = async (userId: any) => {
   
       return formattedData;
 
-    } catch (error: any) {
-      console.error("Error fetching user albums and photos:", error);
+    } catch  {
+      
       return [];
     }
   };
@@ -73,7 +73,7 @@ export const usersList = async() => {
     });
 
     return  userAlbumCounts;
-  } catch (error: any) {
+  } catch  {
     return [];
   }
 }
@@ -84,7 +84,7 @@ export const checkUser = async (user:any) => {
 
     const userdata = await User.findById(user);
     return userdata;
-  }catch(error:any) {
+  }catch {
     return null
   }
 }

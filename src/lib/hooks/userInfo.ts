@@ -9,8 +9,7 @@ export const useUserInfo = () => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const token:any = await getCookie();
-      console.log("Decoded Token:", token);
+      const token  = await getCookie() as any;
       setUserInfo(token);
       setLoading(false);
     };

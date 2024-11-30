@@ -5,12 +5,13 @@ import jwt from "jsonwebtoken";
 import connectDB from "@/lib/dbConnect";
 import { Album, IAlbum } from "@/(models)/Album";
 import { checkUser, userAlbumsPhotos } from "@/lib/serverServices";
+import { DecodedToken } from "@/lib/types";
 
 
 const JWT_SECRET = process.env.JWT_SECRET;
 export default async function Home() {
     const cookieStore = await cookies();
-    const token:any = cookieStore.get('token');
+    const token = cookieStore.get('token');
 
     if(!token) {
         return redirect('/sign-in');
@@ -18,7 +19,7 @@ export default async function Home() {
 
     const value = token.value;
     
-    const decodedToken:any = jwt.verify(value, JWT_SECRET as string);
+    const decodedToken = jwt.verify(value, JWT_SECRET as string) as DecodedToken;
     
     if(!decodedToken.id) {
         return redirect('/sign-in');
@@ -32,14 +33,14 @@ export default async function Home() {
     const user: string = decodedToken.id;
     await connectDB();
 
-    const albumList:any = await Album.find({userId: user}).select('-createdAt -updatedAt -__v').lean();
+    const albumList = await Album.find({userId: user}).select('-createdAt -updatedAt -__v').lean();
 
-    const formattedAlbumList:any = albumList.map((album: any) => ({
+    const formattedAlbumList = albumList.map((album:any) => ({
         ...album,
         _id: album._id.toString(),
     }));
 
-    const alblumData:any = await userAlbumsPhotos(user);
+    const alblumData = await userAlbumsPhotos(user);
 
     return (
         <App albumList={formattedAlbumList} alblumData={alblumData} />

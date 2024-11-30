@@ -3,12 +3,14 @@ import UsersList from "./App";
 import { checkUser, usersList } from "@/lib/serverServices";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
+import { DecodedToken } from "@/lib/types";
+
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function Home() {
   const cookieStore = await cookies();
-  const token: any = cookieStore.get('token');
+  const token = cookieStore.get('token');
 
   if (!token) {
     return redirect('/sign-in');
@@ -17,7 +19,8 @@ export default async function Home() {
   const value = token.value;
 
   try {
-    const decodedToken: any = jwt.verify(value, JWT_SECRET as string);
+    const decodedToken = jwt.verify(value, JWT_SECRET as string) as DecodedToken;
+
 
     if (!decodedToken.id || decodedToken.role !== "admin") {
       return redirect('/sign-in');
@@ -28,10 +31,10 @@ export default async function Home() {
       return redirect('/sign-in');
     }
 
-    const usersInfo:any = await usersList();
+    const usersInfo = await usersList();
 
     return <UsersList users={usersInfo} />;
-  } catch (error) {
+  } catch {
     return redirect('/sign-in');
   }
 }

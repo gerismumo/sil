@@ -54,7 +54,7 @@ export async function middleware(req: NextRequest) {
       if (req.nextUrl.pathname.startsWith('/home') && user.role !== 'admin') {
         return NextResponse.redirect(new URL('/', req.url));
       }
-    } catch (error) {
+    } catch {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
