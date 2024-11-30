@@ -15,8 +15,7 @@ export async function POST(req: NextRequest) {
 
     if (!identifier || !password) {
       return NextResponse.json(
-        { success: false, message: "All fields are required." },
-        { status: 400 }
+        { success: false, message: "All fields are required." }
       );
     }
 
@@ -27,16 +26,14 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: "Invalid username/email or password." },
-        { status: 401 }
+        { success: false, message: "Invalid username/email or password." }
       );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password!);
     if (!isPasswordValid) {
       return NextResponse.json(
-        { success: false, message: "Invalid username/email or password." },
-        { status: 401 }
+        { success: false, message: "Invalid username/email or password." }
       );
     }
 
