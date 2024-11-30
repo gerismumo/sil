@@ -7,7 +7,7 @@ import App from "./App";
 import { DecodedToken } from "@/lib/types";
 
 const JWT_SECRET = process.env.JWT_SECRET;
-export default  async function PhotosView(props:any) {
+export default  async function PhotosView(props :any) {
     const searchParams= await props.searchParams;
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
