@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from "jsonwebtoken";
+import { jwtVerify } from 'jose';
 
 const allowedOrigins = ['http://localhost:3000']; 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET); 
 const corsOptions = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
   const isPreflight = req.method === 'OPTIONS';
   const origin = req.headers.get('origin') || '';
 
-  // Determine if the origin is allowed
+
   const isOriginAllowed = allowedOrigins.includes(origin);
 
   if (isPreflight) {
@@ -31,26 +31,30 @@ export async function middleware(req: NextRequest) {
   });
 
   if (req.nextUrl.pathname.startsWith('/user')) {
-    console.log("hhh")
-    const userCookie:any= req.cookies.get('token');
-    console.log("usercc", userCookie);
-    if(!userCookie) {
-      return NextResponse.redirect(new URL('/', req.url));
-    } 
+    const userCookie: any = req.cookies.get('token');
 
-    const value = userCookie.value;
-    console.log("valeee",value);
-    
-    const user: any = jwt.verify(value, JWT_SECRET as string);
-
-    console.log("midluser", user);
-    
-
-    if (!user || !['admin', 'user'].includes(user.role)) {
+    if (!userCookie) {
       return NextResponse.redirect(new URL('/', req.url));
     }
 
-    if (req.nextUrl.pathname.startsWith('/home') && user.role !== 'admin') {
+    const value = userCookie.value;
+
+    try {
+      const { payload: user }:any = await jwtVerify(value, JWT_SECRET);
+  
+
+      if(!user) {
+        return NextResponse.redirect(new URL('/', req.url));
+      }
+
+      if (!user || !['admin', 'user'].includes(user.role)) {
+        return NextResponse.redirect(new URL('/', req.url));
+      }
+
+      if (req.nextUrl.pathname.startsWith('/home') && user.role !== 'admin') {
+        return NextResponse.redirect(new URL('/', req.url));
+      }
+    } catch (error) {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
@@ -59,5 +63,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['ggg/api/:path*', '/fff:path*'],
+  matcher: ['/api/:path*', '/:path*'],
 };
